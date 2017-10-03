@@ -1,0 +1,44 @@
+@font-face {
+  font-family: 'Sansation';
+    src: url(/fonts/Sansation.ttf); /* IE9 Compat Modes */
+    src: url(/fonts/Sansation.ttf?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+      url(/fonts/Sansation.ttf) format('woff2'), /* Super Modern Browsers */
+      url(/fonts/Sansation.ttf) format('woff'), /* Pretty Modern Browsers */
+      url(/fonts/Sansation.ttf)  format('truetype'), /* Safari, Android, iOS */
+      url(/fonts/Sansation.ttf#svgFontName) format('svg'); /* Legacy iOS */
+}
+
+@keyframes fadeInAnimation {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translate(0px, 0px); }
+  to { transform: translate(0px, 15px); }
+}
+
+body {
+  background: linear-gradient(-45deg, #640487, #3c0351) no-repeat center center fixed;
+  color: white;
+  -webkit-animation: background 15s ease infinite;
+  -moz-animation: background 15s ease infinite;
+  -o-animation: background 15s ease infinite;
+  animation: background 15s ease infinite;
+  background-size: 170% 170%;
+  font-family: 'Sansation', Fallback, sans-serif;
+  text-align: center;
+  font-size: 16px;
+}
+
+#fadein {
+  transition: 0.8s;
+  animation: fadeInAnimation 1.5s;
+}
+
+.input {
+  width: 20%;
+  border: 2px solid black;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.25)
+}
