@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
   font-family: 'Sansation';
     src: url(/fonts/Sansation.ttf); /* IE9 Compat Modes */
@@ -8,37 +9,125 @@
       url(/fonts/Sansation.ttf#svgFontName) format('svg'); /* Legacy iOS */
 }
 
+/* Keyframes */
 @keyframes fadeInAnimation {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes slideOut {
+@keyframes slideOutAnimation {
   from { transform: translate(0px, 0px); }
-  to { transform: translate(0px, 15px); }
+  to { transform: translate(0px, -150px); }
 }
 
+/* body styling */
 body {
-  background: linear-gradient(-45deg, #640487, #3c0351) no-repeat center center fixed;
-  color: white;
-  -webkit-animation: background 15s ease infinite;
-  -moz-animation: background 15s ease infinite;
-  -o-animation: background 15s ease infinite;
-  animation: background 15s ease infinite;
+  background: #2c2f33;
   background-size: 170% 170%;
   font-family: 'Sansation', Fallback, sans-serif;
   text-align: center;
   font-size: 16px;
+  color: white;
 }
 
-#fadein {
+/* individual elements */
+#urlDiv {
   transition: 0.8s;
-  animation: fadeInAnimation 1.5s;
 }
 
 .input {
-  width: 20%;
+  width: 250px;
   border: 2px solid black;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.25)
+}
+
+#videoDiv {
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.15);
+  width: 85%;
+  height: 85%;
+  border: 5px solid #23272A;
+  border-radius: 5px;
+}
+
+#videoInfo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#videoInfoText {
+  flex-shrink: 1;
+  order: 1;
+  font-size: 200%;
+  text-align: left;
+}
+
+img {
+  order: 0;
+  flex-shrink: 0;
+  border-radius: 5px;
+  float: left;
+  margin: 15px;
+  width: 50%;
+  height: 50%;
+}
+
+/* animation classes */
+.fadeIn {
+  animation: fadeInAnimation 1.75s;
+}
+
+.slideOut {
+  animation: slideOutAnimation 1.0s forwards;
+}
+
+.inner {
+  float: left;
+  padding: 0px 16px;
+}
+
+
+/* Spinner */
+.spinner {
+  width: 50px;
+  height: 50px;
+
+  position: relative;
+  margin: 0 auto;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #7289da;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-bounce 1.5s infinite ease-in-out;
+  animation: sk-bounce 1.5s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -0.75s;
+  animation-delay: -0.75s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
 }
