@@ -55,24 +55,36 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 #videoInfoText {
-  flex-shrink: 1;
-  order: 1;
-  font-size: 200%;
+  padding: 1%;
+  font-size: 190%;
   text-align: left;
+  margin: auto;
+}
+
+#downloadInfo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 img {
+  padding: 1%;
   order: 0;
   flex-shrink: 0;
   border-radius: 5px;
   float: left;
-  margin: 15px;
-  width: 50%;
-  height: 50%;
+  width: 60%;
+  height: auto;
+  margin: auto;
 }
+
 
 /* animation classes */
 .fadeIn {
@@ -130,4 +142,18 @@ img {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
+}
+
+@media only screen and (max-width: 500px) {
+  img {
+    width: 100%;
+  }
+
+  #videoInfoText {
+    padding: 1%;
+    font-size: 125%;
+    text-align: left;
+    margin: auto;
+  }
+
 }

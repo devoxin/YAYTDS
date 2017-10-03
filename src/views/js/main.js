@@ -67,11 +67,10 @@ async function readInfo (url) {
   ];
 
   for (const item of items) {
-    info.appendChild(document.createElement('br'));
     info.appendChild(document.createTextNode(item));
+    info.appendChild(document.createElement('br'));
   }
 
-  info.appendChild(document.createElement('br'));
   const authorStr = document.createElement('div');
   authorStr.appendChild(document.createTextNode('Uploaded by '));
   const hyper = document.createElement('a');
@@ -81,51 +80,50 @@ async function readInfo (url) {
   info.appendChild(authorStr);
 
 
-
-
-
-  /*for (const key of Object.keys(res)) {
-    if (['short_view_count_text', 'length_seconds', 'title', 'avg_rating'].includes(key)) {
-      info.appendChild(document.createElement('br'));
-      info.appendChild(document.createTextNode(`${key}: ${res[key]}`));
+  const downloadBtn = document.createElement('button');
+  downloadBtn.setAttribute('type', 'button');
+  downloadBtn.setAttribute('class', 'btn btn-primary');
+  downloadBtn.innerHTML = 'Click to download';
+  downloadBtn.onclick = () => {
+    const selectedFormat = document.querySelector('.btn-group > .active');
+    if (!selectedFormat) {
+      return alert('You haven\'t picked a format.');
     }
-  }*/
-  videoInfo.appendChild(info);
 
+    alert(`Downloading ${selectedFormat.innerHTML.slice(0, 3)} [placeholder]`);
+  }
+
+
+
+  const downloadBtns = document.createElement('div');
+  const formatPickBtns = document.createElement('div');
+
+  formatPickBtns.setAttribute('class', 'btn-group');
+  formatPickBtns.setAttribute('data-toggle', 'buttons');
+
+  const formats = ['mp3', 'mp4', 'mp6'];
+  for (const format of formats) {
+    const label = document.createElement('label');
+    label.setAttribute('class', 'btn btn-primary');
+    const innerInput = document.createElement('input');
+    label.appendChild(document.createTextNode(format));
+    innerInput.setAttribute('type', 'radio');
+    innerInput.setAttribute('name', 'options');
+    innerInput.setAttribute('id', `option${formats.indexOf(format) + 1}`);
+    innerInput.setAttribute('autocomplete', 'off');
+    label.appendChild(innerInput);
+    formatPickBtns.appendChild(label);
+  }
+
+  downloadBtns.appendChild(formatPickBtns);
+  downloadBtns.appendChild(document.createElement('br'));
+  downloadBtns.appendChild(document.createElement('br'));
+  downloadBtns.appendChild(downloadBtn);
+
+  videoInfo.appendChild(info);
   videoDiv.appendChild(videoInfo);
+  videoDiv.appendChild(downloadBtns);
   videoDiv.className = 'fadein';
   document.body.appendChild(videoDiv);
+
 }
-
-/*
-  const loadingMessage = document.createElement('div');
-  loadingMessage.style.display = 'inline-block';
-
-  const text = document.createElement('span');
-
-  const spinnerWrapper = document.createElement('div');
-  const doubleSpinner1 = document.createElement('div');
-  const doubleSpinner2 = document.createElement('div');
-
-  text.innerHTML = 'Loading...';
-  text.style.fontSize = '150%';
-  text.style.lineHeight = '50px';
-  loadingMessage.className = 'fadein';
-
-  text.setAttribute('class', 'inner');
-  spinnerWrapper.setAttribute('class', 'spinner inner');
-  doubleSpinner1.setAttribute('class', 'double-bounce1');
-  doubleSpinner2.setAttribute('class', 'double-bounce2');
-
-  spinnerWrapper.appendChild(doubleSpinner1);
-  spinnerWrapper.appendChild(doubleSpinner2);
-
-  loadingMessage.appendChild(spinnerWrapper);
-  loadingMessage.appendChild(text);
-  setTimeout(() => {
-    document.body.appendChild(loadingMessage);
-    const res = await postShit('/api/getInfo', { url });
-    loadingMessage.parentNode.removeChild(loadingMessage);
-    console.log(res);
-  }, 200);
-*/
