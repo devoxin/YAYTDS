@@ -26,7 +26,7 @@ body {
   background-size: 170% 170%;
   font-family: 'Sansation', Fallback, sans-serif;
   text-align: center;
-  font-size: 16px;
+  font-size: 1em;
   color: white;
 }
 
@@ -60,13 +60,14 @@ body {
 }
 
 #videoInfoText {
-  padding: 1%;
-  font-size: 190%;
+  padding: 2.5% 0%;
+  font-size: 180%;
   text-align: left;
   margin: auto;
 }
 
 #downloadInfo {
+  margin: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -75,7 +76,7 @@ body {
 }
 
 img {
-  padding: 1%;
+  padding: 2.5% 0%;
   order: 0;
   flex-shrink: 0;
   border-radius: 5px;
@@ -141,6 +142,16 @@ img {
   } 50% { 
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
+  }
+}
+
+@media (max-width: 1366px) {
+  img {
+    width: 52.5%;
+  }
+
+  #videoInfoText {
+    font-size: 150%;
   }
 }
 

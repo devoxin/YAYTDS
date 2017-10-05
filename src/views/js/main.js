@@ -101,7 +101,7 @@ async function readInfo (url) {
   formatPickBtns.setAttribute('class', 'btn-group');
   formatPickBtns.setAttribute('data-toggle', 'buttons');
 
-  const formats = ['mp3', 'mp4', 'mp6'];
+  const formats = ['mp3', 'mp4'];
   for (const format of formats) {
     const label = document.createElement('label');
     label.setAttribute('class', 'btn btn-primary');
@@ -117,12 +117,12 @@ async function readInfo (url) {
 
   downloadBtns.appendChild(formatPickBtns);
   downloadBtns.appendChild(document.createElement('br'));
-  downloadBtns.appendChild(document.createElement('br'));
+  downloadBtns.id = 'downloadInfo'
   downloadBtns.appendChild(downloadBtn);
 
-  videoInfo.appendChild(info);
+  videoInfo.appendChild(info);  
+  videoInfo.appendChild(downloadBtns);
   videoDiv.appendChild(videoInfo);
-  videoDiv.appendChild(downloadBtns);
   videoDiv.className = 'fadein';
   document.body.appendChild(videoDiv);
 
