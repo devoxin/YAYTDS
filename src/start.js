@@ -5,7 +5,6 @@ const multer = require('multer')();
 
 const app = express();
 const port = 42069;
-const getVideo = multer.fields([{ name: 'url', maxCount: 1 }, { name: 'format', maxCount: 1 }]);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,16 +27,12 @@ app.post('/api/getInfo/', multer.single('url'), async (req, res) => {
 
 app.get('/api/download*', async (req, res) => {
   const url = req.query.url;
-  const format = req.query.format || 'mp3';
 
   if (!url) return;
 
-  const type = format === 'mp3' ? 'application/mp3' : 'video/mp4';
-  const opts = format === 'mp3' ? { filter: 'audioonly' } : {};
-
   res.set({
-    'Content-Disposition': `attachment; filename="song.${format}"`,
-    'Content-Type': type
+    'Content-Disposition': `attachment; filename="song.opus"`,
+    'Content-Type': "audio/ogg"
   });
 
   ytdl(url, opts).pipe(res);
