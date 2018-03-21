@@ -7,7 +7,7 @@ function parseTime (s) {
   return `${parseInt(s / 60)}:${parseInt(s % 60)}`;
 }
 
-function postShit (url, content) {
+function post (url, content) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
@@ -37,10 +37,11 @@ function readURL () {
 
 async function readInfo (url) {
   document.getElementById('urlDiv').className = 'slideout';
-  let res = await postShit('/api/getInfo', { url });
-  res = JSON.parse(res);
-
-
+  const res = JSON.parse(await post('/getVideo', { url }));
+  const thumbs = res.player_response.videoDetails.thumbnail.thumbnails;
+  const t = thumbs[thumbs.length - 1];
+  const thumb = t ? t.url : res.thumbnail_url;
+  
   const videoDiv = document.createElement('div');
   videoDiv.setAttribute('id', 'videoDiv');
 
@@ -53,7 +54,7 @@ async function readInfo (url) {
   videoInfo.id = 'videoInfo';
 
   const image = document.createElement('img');
-  image.setAttribute('src', res.iurlmaxres);
+  image.setAttribute('src', thumb);
   videoInfo.appendChild(image);
 
   const info = document.createElement('div');
@@ -62,7 +63,7 @@ async function readInfo (url) {
   const items = [
     `Title: ${res.title}`,
     `Average rating: ${parseFloat(res.avg_rating).toFixed(2)}/5`,
-    `Views: ${res.short_view_count_text}`,
+    `Views: ${res.view_count.toLocaleString()}`,
     `Length: ${parseTime(res.length_seconds)}`
   ];
 
@@ -84,36 +85,13 @@ async function readInfo (url) {
   downloadBtn.setAttribute('type', 'button');
   downloadBtn.setAttribute('class', 'btn btn-primary');
   downloadBtn.innerHTML = 'Click to download';
-  downloadBtn.onclick = () => {
-    const selectedFormat = document.querySelector('.btn-group > .active');
-    if (!selectedFormat) {
-      return alert('You haven\'t picked a format.');
-    }
-
-    alert(`Downloading ${selectedFormat.innerHTML.slice(0, 3)} [placeholder]`);
-  }
-
-
+  downloadBtn.onclick = async () => window.location.href = `/download?url=${url}`;
 
   const downloadBtns = document.createElement('div');
   const formatPickBtns = document.createElement('div');
 
   formatPickBtns.setAttribute('class', 'btn-group');
   formatPickBtns.setAttribute('data-toggle', 'buttons');
-
-  const formats = ['mp3', 'mp4'];
-  for (const format of formats) {
-    const label = document.createElement('label');
-    label.setAttribute('class', 'btn btn-primary');
-    const innerInput = document.createElement('input');
-    label.appendChild(document.createTextNode(format));
-    innerInput.setAttribute('type', 'radio');
-    innerInput.setAttribute('name', 'options');
-    innerInput.setAttribute('id', `option${formats.indexOf(format) + 1}`);
-    innerInput.setAttribute('autocomplete', 'off');
-    label.appendChild(innerInput);
-    formatPickBtns.appendChild(label);
-  }
 
   downloadBtns.appendChild(formatPickBtns);
   downloadBtns.appendChild(document.createElement('br'));
