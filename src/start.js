@@ -15,7 +15,7 @@ app.listen(port, () => {
 
 app.use(express.static(`${__dirname}/views`));
 
-app.post('/api/getInfo/', multer.single('url'), async (req, res) => {
+app.post('/getVideo', multer.single('url'), async (req, res) => {
   const info = await ytdl.getInfo(req.body.url).catch(() => null);
 
   if (!info) {
@@ -25,7 +25,7 @@ app.post('/api/getInfo/', multer.single('url'), async (req, res) => {
   }
 });
 
-app.get('/api/download*', async (req, res) => {
+app.get('/download*', async (req, res) => {
   const url = req.query.url;
 
   if (!url) return;

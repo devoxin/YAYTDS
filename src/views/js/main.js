@@ -12,31 +12,25 @@ function post (url, content) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.onload = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          resolve(xhr.responseText);
-        }
-      }
+    xhr.onload = () => {
+      if (xhr.readyState === 4 && xhr.status === 200)
+        resolve(xhr.responseText);
     };
-    xhr.onerror = function () {
-      reject(xhr.statusText);
-    };
+    xhr.onerror = () => reject(xhr.statusText);
     xhr.send(JSON.stringify(content));
   });
 }
 
-function readURL () {
-  setTimeout(() => {
-    const url = document.getElementById('urlBox').value;
-    if (ytrx.test(url)) {
-      readInfo(url);
-    }
-  }, 100);
+async function readURL () {
+  await sleep(100);
+  const url = document.getElementById('urlBox').value;
+  if (ytrx.test(url)) {
+    readInfo(url);
+  }
 }
 
 async function readInfo (url) {
-  document.getElementById('urlDiv').className = 'slideout';
+  document.getElementById('urlDiv').remove();
   const res = JSON.parse(await post('/getVideo', { url }));
   const thumbs = res.player_response.videoDetails.thumbnail.thumbnails;
   const t = thumbs[thumbs.length - 1];
@@ -46,22 +40,18 @@ async function readInfo (url) {
   videoDiv.setAttribute('id', 'videoDiv');
 
   const text = document.createElement('h1');
-  text.innerHTML = 'Video Found';
+  text.setAttribute('class', 'videoTitle')
+  text.innerHTML = res.title;
 
   videoDiv.appendChild(text);
 
   const videoInfo = document.createElement('div');
   videoInfo.id = 'videoInfo';
 
-  const image = document.createElement('img');
-  image.setAttribute('src', thumb);
-  videoInfo.appendChild(image);
-
   const info = document.createElement('div');
   info.id = 'videoInfoText';
 
   const items = [
-    `Title: ${res.title}`,
     `Average rating: ${parseFloat(res.avg_rating).toFixed(2)}/5`,
     `Views: ${res.view_count.toLocaleString()}`,
     `Length: ${parseTime(res.length_seconds)}`
@@ -73,7 +63,7 @@ async function readInfo (url) {
   }
 
   const authorStr = document.createElement('div');
-  authorStr.appendChild(document.createTextNode('Uploaded by '));
+  authorStr.appendChild(document.createTextNode('Uploader: '));
   const hyper = document.createElement('a');
   hyper.appendChild(document.createTextNode(res.author.name));
   hyper.setAttribute('href', res.author.channel_url);
@@ -104,4 +94,15 @@ async function readInfo (url) {
   videoDiv.className = 'fadein';
   document.body.appendChild(videoDiv);
 
+  const cover = document.getElementById('cover');
+  cover.style.backgroundImage = `url('${thumb}')`;
+  for (let i = 0; i < 1; i += 0.1) {
+    cover.style.opacity = i;
+    await sleep(25);
+  }
+
+}
+
+function sleep(delay) {
+    return new Promise((resolve) => setTimeout(resolve, delay));
 }
